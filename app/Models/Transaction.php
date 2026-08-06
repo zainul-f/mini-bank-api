@@ -11,6 +11,7 @@ class Transaction extends Model
     use HasUuids;
 
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -23,12 +24,12 @@ class Transaction extends Model
         'balance_after',
     ];
 
-    public function customer():BelongsTo
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    public function performedBy():BelongsTo
+    public function performedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'performed_by');
     }

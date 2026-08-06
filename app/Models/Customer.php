@@ -9,24 +9,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
-    use HasUuids, HasFactory;
+    use HasFactory, HasUuids;
 
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = ['account_number', 'name', 'phone', 'address', 'balance'];
 
-    public function transactions():HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
 
-    public function outgoingTransfers():HasMany
+    public function outgoingTransfers(): HasMany
     {
         return $this->hasMany(Transfer::class, 'from_customer_id');
     }
 
-    public function incomingTransfers():HasMany
+    public function incomingTransfers(): HasMany
     {
         return $this->hasMany(Transfer::class, 'to_customer_id');
     }

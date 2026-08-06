@@ -24,7 +24,7 @@ return new class extends Migration
             $table->decimal('amount', 18, 2);
             $table->decimal('balance_before', 18, 2);
             $table->decimal('balance_after', 18, 2);
-            
+
             $table->timestamps();
 
             $table->index(['customer_id', 'created_at']);

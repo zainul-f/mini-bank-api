@@ -29,9 +29,10 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasUuids;
+    use HasFactory, HasUuids, Notifiable;
 
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     /**
@@ -47,7 +48,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function transactions():HasMany
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'performed_by');
     }

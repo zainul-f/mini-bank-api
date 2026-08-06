@@ -11,6 +11,7 @@ class Transfer extends Model
     use HasUuids;
 
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -20,12 +21,12 @@ class Transfer extends Model
         'amount',
     ];
 
-    public function fromCustomer():BelongsTo
+    public function fromCustomer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'from_customer_id');
     }
 
-    public function toCustomer():BelongsTo
+    public function toCustomer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'to_customer_id');
     }
