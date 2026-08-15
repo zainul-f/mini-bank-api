@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::post('/customers', [CustomerController::class, 'store']);
     Route::put('/customers/{id}', [CustomerController::class, 'update']);
+    Route::post('/customers/{id}/deposit', [CustomerController::class, 'deposit']);
+    Route::post('/customers/{id}/withdraw', [CustomerController::class, 'withdraw']);
+    Route::post('/customers/{id}/transfer', [CustomerController::class, 'transfer']);
 });
 
 Route::middleware(['auth:sanctum', 'role:pimpinan'])->group(function () {
@@ -26,16 +29,3 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/token/refresh', [AuthController::class, 'refresh']);
-
-
-Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-    Route::get('/admin-only', function () {
-        return response()->json(['message' => 'Admin only']);
-    });
-});
-
-Route::middleware(['auth:sanctum', 'role:pimpinan'])->group(function () {
-    Route::get('/pimpinan-only', function () {
-        return response()->json(['message' => 'Pimpinan only']);
-    });
-});

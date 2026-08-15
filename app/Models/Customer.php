@@ -17,6 +17,10 @@ class Customer extends Model
 
     protected $fillable = ['account_number', 'name', 'phone', 'address', 'balance'];
 
+    protected $casts = [
+        'balance' => 'decimal:2',
+    ];
+
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);

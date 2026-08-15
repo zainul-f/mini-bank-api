@@ -24,6 +24,12 @@ class Transaction extends Model
         'balance_after',
     ];
 
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'balance_before' => 'decimal:2',
+        'balance_after' => 'decimal:2',
+    ];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
