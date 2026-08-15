@@ -17,7 +17,7 @@ class CustomerController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data successfully retrieved',
+            'message' => 'Data successfully loaded',
             'data' => $customers
         ], 200);
     }
