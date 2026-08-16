@@ -238,4 +238,17 @@ class CustomerController extends Controller
             throw $e;
         }
     }
+
+    public function transactions(string $id)
+    {
+        $customer = Customer::findOrFail($id);
+        
+        $transactions = $customer->transactions()->latest()->paginate(10);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Transactions history successfully loaded!',
+            'data' => $transactions,
+        ], 200);
+    }
 }

@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum', 'role:pimpinan'])->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/customers', [CustomerController::class, 'index']);
     Route::get('/customers/{id}', [CustomerController::class, 'show']);
+    Route::get('/customers/{id}/transactions', [CustomerController::class, 'transactions']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
