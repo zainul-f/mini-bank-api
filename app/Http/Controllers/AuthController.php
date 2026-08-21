@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         $token = PersonalAccessToken::findToken($request->refreshToken);
 
-        if (! $token || $token->name !== 'refresh-token') {
+        if (! $token || $token->name !== 'refresh-token' || ($token->expires_at && $token->isPast())) {
             return response()->json(['message' => 'Invalid refresh token'], 401);
         }
 

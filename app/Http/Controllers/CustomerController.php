@@ -6,6 +6,7 @@ use App\Http\Requests\CustomerStoreRequest;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Http\Requests\TransactionRequest;
 use App\Http\Requests\TransferRequest;
+use App\Jobs\ExportTransactionsJob;
 use App\Models\Customer;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -206,7 +207,7 @@ class CustomerController extends Controller
             Transaction::create([
                 'customer_id' => $fromCustomer->id,
                 'performed_by' => Auth::id(),
-                'type' => 'transfer',
+                'type' => 'transfer_out',
                 'reference_no' => $referenceNo,
                 'amount' => $amount,
                 'balance_before' => $fromBefore,
@@ -216,7 +217,7 @@ class CustomerController extends Controller
             Transaction::create([
                 'customer_id' => $toCustomer->id,
                 'performed_by' => Auth::id(),
-                'type' => 'transfer',
+                'type' => 'transfer_in',
                 'reference_no' => $referenceNo,
                 'amount' => $amount,
                 'balance_before' => $toBefore,
@@ -250,5 +251,20 @@ class CustomerController extends Controller
             'message' => 'Transactions history successfully loaded!',
             'data' => $transactions,
         ], 200);
+    }
+
+    public function exportTransactions()
+    {
+        $filePath = 'exports/transactions-' . now()->timestamp . '-' . Str::uuid() . '.csv';
+
+        ExportTransactionsJob::dispatch($filePath);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Transaction export has been queued',
+            'data' => [
+                'file_path' => $filePath
+            ],
+        ], 202);
     }
 }

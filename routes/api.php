@@ -2,15 +2,18 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::post('/customers', [CustomerController::class, 'store']);
     Route::put('/customers/{id}', [CustomerController::class, 'update']);
     Route::post('/customers/{id}/deposit', [CustomerController::class, 'deposit']);
     Route::post('/customers/{id}/withdraw', [CustomerController::class, 'withdraw']);
     Route::post('/customers/{id}/transfer', [CustomerController::class, 'transfer']);
+    Route::get('/customers/export', [CustomerController::class, 'exportTransactions']);
 });
 
 Route::middleware(['auth:sanctum', 'role:pimpinan'])->group(function () {
