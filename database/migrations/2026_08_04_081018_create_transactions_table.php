@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->enum('type', ['deposit', 'withdraw', 'transfer_in', 'transfer_out']);
 
-            $table->string('reference_no')->unique();
+            $table->string('reference_no');
 
             $table->decimal('amount', 18, 2);
             $table->decimal('balance_before', 18, 2);

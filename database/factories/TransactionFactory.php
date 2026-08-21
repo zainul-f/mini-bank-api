@@ -19,8 +19,8 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => $this->faker->randomElement(['deposit', 'withdraw', 'transfer_in']),
-            'reference_no' => 'TF-' . strtoupper(Str::random(12)),
+            'type' => $this->faker->randomElement(['deposit', 'withdraw']),
+            'reference_no' => 'TX-' . strtoupper(Str::random(12)),
             'amount' => $this->faker->randomFloat(2, 1000, 10000000),
             'balance_before' => $this->faker->randomFloat(2, 0, 10000000),
             'balance_after' => $this->faker->randomFloat(2, 0, 10000000),

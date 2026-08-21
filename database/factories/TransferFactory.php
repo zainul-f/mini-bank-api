@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
  */
 class TransferFactory extends Factory
 {
+    protected $model = Transfer::class;
     /**
      * Define the model's default state.
      *
