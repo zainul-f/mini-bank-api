@@ -24,7 +24,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|unique:users,email,' . $this->route('user')->id,
+            'email' => 'nullable|email|unique:users,email,' . $this->route('id'),
             'role' => 'nullable|in:admin,pimpinan',
             'password' => 'nullable|string|min:8',
         ];

@@ -22,7 +22,7 @@ class CustomerUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $customerId = $this->route('customer')->id;
+        $customerId = $this->route('id');
 
         return [
             'account_number' => 'nullable|string|unique:customers,account_number,' . $customerId,

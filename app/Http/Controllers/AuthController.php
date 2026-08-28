@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         $token = PersonalAccessToken::findToken($request->refreshToken);
 
-        if (! $token || $token->name !== 'refresh-token' || ($token->expires_at && $token->isPast())) {
+        if (! $token || $token->name !== 'refresh-token' || ($token->expires_at && $token->expires_at->isPast())) {
             return response()->json(['message' => 'Invalid refresh token'], 401);
         }
 
@@ -59,8 +59,9 @@ class AuthController extends Controller
         $accessToken = $user->createToken('access-token', ['access-api'], Carbon::now()->addMinutes($at_expiration))->plainTextToken;
 
         return response()->json([
+            'success' => true,
             'accessToken' => $accessToken,
-        ]);
+        ], 200);
     }
 
     public function logout(Request $request): JsonResponse

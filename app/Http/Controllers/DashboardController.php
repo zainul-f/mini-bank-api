@@ -17,8 +17,8 @@ class DashboardController extends Controller
                 'total_customers' => Customer::count(),
                 'total_balance' => Customer::sum('balance'),
                 'total_transactions' => Transaction::count(),
-                'total_deposit' => Transaction::where('type', 'deposit')->amount(),
-                'total_withdraw' => Transaction::where('type', 'withdraw')->amount(),
+                'total_deposit' => Transaction::where('type', 'deposit')->sum('amount'),
+                'total_withdraw' => Transaction::where('type', 'withdraw')->sum('amount'),
                 'total_transfer' => Transfer::sum('amount'),
             ],
         ]);

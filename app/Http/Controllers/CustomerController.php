@@ -99,7 +99,7 @@ class CustomerController extends Controller
             $customer->balance += $amount;
             $customer->save();
 
-            Transaction::create([
+            $deposit = Transaction::create([
                 'customer_id' => $customer->id,
                 'performed_by' => Auth::id(),
                 'type' => 'deposit',
@@ -114,7 +114,10 @@ class CustomerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Deposit successfully processed!',
-                'data' => $customer
+                'data' => [
+                    'customer' => $customer,
+                    'transaction' => $deposit,
+                ]
             ], 200);
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -144,7 +147,7 @@ class CustomerController extends Controller
             $customer->balance -= $amount;
             $customer->save();
 
-            Transaction::create([
+            $withdraw = Transaction::create([
                 'customer_id' => $customer->id,
                 'performed_by' => Auth::id(),
                 'type' => 'withdraw',
@@ -159,7 +162,10 @@ class CustomerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Withdraw successfully processed!',
-                'data' => $customer
+                'data' => [
+                    'customer' => $customer,
+                    'transaction' => $withdraw,
+                ]
             ], 200);
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -204,7 +210,7 @@ class CustomerController extends Controller
 
             $referenceNo = 'TF-' . now()->format('YmdHis') . '-' . strtoupper(Str::random(6));
 
-            Transaction::create([
+            $transferOut = Transaction::create([
                 'customer_id' => $fromCustomer->id,
                 'performed_by' => Auth::id(),
                 'type' => 'transfer_out',
@@ -214,7 +220,7 @@ class CustomerController extends Controller
                 'balance_after' => $fromCustomer->balance,
             ]);
 
-            Transaction::create([
+            $transferIn = Transaction::create([
                 'customer_id' => $toCustomer->id,
                 'performed_by' => Auth::id(),
                 'type' => 'transfer_in',
@@ -230,8 +236,14 @@ class CustomerController extends Controller
                 'success' => true,
                 'message' => 'Transfer successfully processed!',
                 'data' => [
-                    'from' => $fromCustomer,
-                    'to' => $toCustomer,
+                    'from' => [
+                        'customer' => $fromCustomer,
+                        'transaction' => $transferOut,
+                    ],
+                    'to' => [
+                        'customer' => $toCustomer,
+                        'transaction' => $transferIn,
+                    ],
                 ]
             ], 200);
         } catch (\Throwable $e) {
